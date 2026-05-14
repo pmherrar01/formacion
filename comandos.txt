@@ -1,0 +1,8 @@
+para crear una clase con todo, controlador  y todo.
+
+php artisan make:model (NOMBRE DE LA CLASE) -mcr 
+---------------------------------------------------
+iniciar server:
+
+php artisan serve
+
