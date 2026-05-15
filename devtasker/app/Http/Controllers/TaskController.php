@@ -31,9 +31,20 @@ class TaskController extends Controller
             'project_id' => "required|exists:projects,id"
         ]);
 
+        $project = Project::findOrFail($datosValidados["project_id"]);
+
+        if ($project->user_id !== $request->user()->id) {
+            return response()->json([
+                "mensaje" => "Error no tienes acceso a este proyecto"
+            ], 403);
+        }
+
         $tareaCreada = Task::create($datosValidados);
-        
-        return response()->json($tareaCreada, 201);
+
+        return response()->json([
+            "mensaje" => "Tarea creada con exito",
+            "tarea" => $tareaCreada
+        ], 201);
     }
 
     /**
@@ -53,14 +64,33 @@ class TaskController extends Controller
     {
         $tareaABuscar = Task::findOrFail($id);
 
-       $datosValidados = $request->validate([
+        $project = $tareaABuscar->project;
+
+        if ($project->user_id !== $request->user()->id) {
+            return response()->json([
+                "mesaje" => "Error no tienes acceso a este proyecto"
+            ], 403);
+        }
+
+
+        $datosValidados = $request->validate([
             'title' => "required|string|max:255",
             'description' => "nullable|string",
             'status' => 'nullable|string',
             'project_id' => "required|exists:projects,id"
         ]);
 
-        $tareaABuscar -> update($datosValidados);
+        if ($request->project_id != $tareaABuscar->project_id) {
+            $nuevoProyecto = Project::findOrFail($request->project_id);
+
+            if ($nuevoProyecto->user_id !== $request->user()->id) {
+                return response()->json([
+                    "mensaje" => "Error, no puedes mover la tarea a un proyecto que no es tuyo"
+                ], 403);
+            }
+        }
+
+        $tareaABuscar->update($datosValidados);
 
         return response()->json($tareaABuscar, 200);
     }
@@ -68,12 +98,22 @@ class TaskController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id, Request $request)
     {
         $tareaABorrar = Task::findOrFail($id);
 
-        $tareaABorrar -> delete();
+        $project = $tareaABorrar->project;
 
-        return response()->json(["mensaje" => "La tarea: " . $tareaABorrar->title . " se a borrado perfectamente"], 200);
+        if ($project->user_id !== $request->user()->id) {
+            return response()->json([
+                "mensaje" => "error no tienes acceso al proyecto"
+            ],  403);
+        }
+
+        $tareaABorrar->delete();
+
+        return response()->json([
+            "mensaje" => "La tarea: " . $tareaABorrar->title . " se ha borrado perfectamente"
+        ], 200);
     }
 }

@@ -36,4 +36,6 @@ class User extends Authenticatable
         // Un usuario "tiene muchos" (hasMany) Proyectos
         return $this->hasMany(Project::class);
     }
+
+    
 }
