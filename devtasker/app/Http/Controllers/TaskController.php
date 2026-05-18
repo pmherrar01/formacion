@@ -12,9 +12,11 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $todasLasTareas = Task::with("project")->get();
+        $todasLasTareas = Task::with("project")->whereHas("project", function ($query) use ($request) {
+            $query->where("user_id", $request->user()->id);
+        })->get();
 
         return response()->json($todasLasTareas);
     }
@@ -50,9 +52,13 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id, Request $request)
     {
         $tareaABuscar = Task::with("project")->findOrFail($id);
+
+        if($tareaABuscar->project->user_id !== $request->user()->id){
+        return response()->json(["mensaje" => "Error no tienes acceso a ese projecto"], 403);
+        }
 
         return response()->json($tareaABuscar, 200);
     }
