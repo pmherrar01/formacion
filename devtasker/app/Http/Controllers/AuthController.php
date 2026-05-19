@@ -51,7 +51,8 @@ class AuthController extends Controller
 
         return response()->json([
             "mensaje" => "Login aceptado, bienvenido de nuevo " . $userEncontrado->name . "!",
-            "token" => $nuevoToken
+            "token" => $nuevoToken,
+            "user" => $userEncontrado->name
         ], 200);
     }
 }

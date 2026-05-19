@@ -24,6 +24,8 @@ export default function Login() {
 
         console.log("Respuesta del servidor: ", datos);
 
+        localStorage.setItem("Token de " + datos.user  + ": " , datos.token);
+
     }
 
   return (

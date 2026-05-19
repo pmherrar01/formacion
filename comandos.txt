@@ -5,4 +5,7 @@ php artisan make:model (NOMBRE DE LA CLASE) -mcr
 iniciar server:
 
 php artisan serve
+---------------------------------------------------
+iniciar server front:
 
+npm run dev
