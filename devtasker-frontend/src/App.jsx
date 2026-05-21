@@ -12,10 +12,12 @@ function App() {
 
   return (
     <div>
+
+
       <h1>!Bienvenido al front de devtesker!</h1>
       <br />
 
-    {!token ? <Login /> : <Dashboard />}
+    {!token ? <Login alLoguearse={setToken} /> : <Dashboard alCerrarSesion={setToken} />}
 
       
     </div>

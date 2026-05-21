@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Login() {
+export default function Login({alLoguearse}) {
 
     const [email, setEmail] = useState("");
     const [password, setPasword] = useState("");
@@ -24,7 +24,9 @@ export default function Login() {
 
         console.log("Respuesta del servidor: ", datos);
 
-        localStorage.setItem("Token de " + datos.user  + ": " , datos.token);
+        localStorage.setItem("Token" , datos.token);
+
+        alLoguearse(datos.token);
 
     }
 
