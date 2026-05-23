@@ -5,6 +5,8 @@ export default function Dashboard({ alCerrarSesion }) {
   const [projects, setProject] = useState([]);
   const [nombreNuevoProyecto, setNombreNuevoProyecto] = useState("");
   const [descripcionNuevoProyecto, setDescriptcionNuevoProyecto] = useState("");
+  const [proyectoActual, setProyectoActual] = useState([]);
+  const [tasks, setTasks] = useState([]);
 
   function logout() {
     localStorage.removeItem("Token");
@@ -67,7 +69,64 @@ export default function Dashboard({ alCerrarSesion }) {
       },
     );
 
-    setProject(projects.filter((project) => project.id !== idProject));
+    if (respuesta.ok) {
+      setProject(projects.filter((project) => project.id !== idProject));
+    } else {
+      console.error("Error al intentar borrar el proyecto en la base de datos");
+    }
+  };
+
+  const editarProyecto = async (idProject) => {
+    const nuevoNombre = prompt("introduce un nuevo nombre para este proyecto:");
+    const nuevaDescripcion = prompt(
+      "introduce una nueva descripcion para este proyecto",
+    );
+
+    const respuesta = await fetch(
+      `http://localhost:8000/api/proyectos/${idProject}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("Token")}`,
+        },
+        body: JSON.stringify({
+          name: nuevoNombre,
+          description: nuevaDescripcion,
+        }),
+      },
+    );
+
+    if (respuesta.ok) {
+      setProject(
+        projects.map((proyecto) =>
+          proyecto.id === idProject
+            ? { ...proyecto, name: nuevoNombre, description: nuevaDescripcion }
+            : proyecto,
+        ),
+      );
+    }
+  };
+
+  const seleccionarProyecto = async (idProject) => {
+    const respuesta = await fetch(
+      `http://localhost:8000/api/proyectos/${idProject}/tareas`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${localStorage.getItem("Token")}`,
+        },
+      },
+    );
+
+    const tareas = respuesta.json()
+
+    if (respuesta.ok) {
+      setTasks( tareas );
+    }
   };
 
   return (
@@ -76,7 +135,7 @@ export default function Dashboard({ alCerrarSesion }) {
       <h2>Mis projectos</h2>
       <ul>
         {projects.map((project) => (
-          <li key={project.id}>
+          <li key={project.id} onClick={() => seleccionarProyecto(project.id)}>
             Nombre del projecto: {project.name} <br /> descripcion:{" "}
             {project.description} <br />{" "}
             <button
@@ -86,6 +145,14 @@ export default function Dashboard({ alCerrarSesion }) {
             >
               Eliminar
             </button>{" "}
+            <button
+              onClick={() => {
+                editarProyecto(project.id);
+              }}
+            >
+              Editar proyecto
+            </button>
+            
             <hr />
           </li>
         ))}
