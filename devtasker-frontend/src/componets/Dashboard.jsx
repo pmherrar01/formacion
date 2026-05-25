@@ -5,8 +5,10 @@ export default function Dashboard({ alCerrarSesion }) {
   const [projects, setProject] = useState([]);
   const [nombreNuevoProyecto, setNombreNuevoProyecto] = useState("");
   const [descripcionNuevoProyecto, setDescriptcionNuevoProyecto] = useState("");
-  const [proyectoActual, setProyectoActual] = useState([]);
   const [tasks, setTasks] = useState([]);
+  const [nombreNuevaTarea, setNombreNuevaTarea] = useState("");
+  const [descripcionNuevaTarea, setDescripcionNuevaTarea] = useState("");
+  const [proyectoActual, setProyectoActual] = useState(null);
 
   function logout() {
     localStorage.removeItem("Token");
@@ -48,9 +50,9 @@ export default function Dashboard({ alCerrarSesion }) {
       }),
     });
 
-    const validacion = await respuesta.json();
+    const validacionTareas = await respuesta.json();
 
-    setProject([...projects, validacion]);
+    setProject([...projects, validacionTareas]);
 
     setNombreNuevoProyecto("");
     setDescriptcionNuevoProyecto("");
@@ -122,10 +124,37 @@ export default function Dashboard({ alCerrarSesion }) {
       },
     );
 
-    const tareas = respuesta.json()
+    const tareas = await respuesta.json();
 
     if (respuesta.ok) {
-      setTasks( tareas );
+      setTasks(tareas);
+    }
+  };
+
+  const crearTarea = async (event, $idProyecto) => {
+    event.preventDefault();
+
+    const respuesta = await fetch(`http://localhost:8000/api/tareas/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${localStorage.getItem("Token")}`,
+      },
+      body: JSON.stringify({
+        title: nombreNuevaTarea,
+        description: descripcionNuevaTarea,
+        project_id: $idProyecto,
+      }),
+    });
+
+    const validacion = await respuesta.json();
+
+    if (respuesta.ok) {
+      setTasks([...tasks, validacion]);
+
+      setNombreNuevaTarea("");
+      setDescripcionNuevaTarea("");
     }
   };
 
@@ -135,7 +164,13 @@ export default function Dashboard({ alCerrarSesion }) {
       <h2>Mis projectos</h2>
       <ul>
         {projects.map((project) => (
-          <li key={project.id} onClick={() => seleccionarProyecto(project.id)}>
+          <li
+            key={project.id}
+            onClick={() => {
+              seleccionarProyecto(project.id);
+              setProyectoActual(project);
+            }}
+          >
             Nombre del projecto: {project.name} <br /> descripcion:{" "}
             {project.description} <br />{" "}
             <button
@@ -152,7 +187,6 @@ export default function Dashboard({ alCerrarSesion }) {
             >
               Editar proyecto
             </button>
-            
             <hr />
           </li>
         ))}
@@ -178,6 +212,35 @@ export default function Dashboard({ alCerrarSesion }) {
         />{" "}
         <br />
         <input type="submit" value="Añadir Proyecto" />
+      </form>
+
+      <h2>Tareas del proyecto</h2>
+      <ul>
+        {tasks.map((task) => (
+          <li key={task.id}>{task.title} </li>
+        ))}
+      </ul>
+
+      <form onSubmit={(event) => crearTarea(event, proyectoActual.id)}>
+        <label htmlFor="">Nombre Tarea: </label>
+        <input
+          type="text"
+          name="nombreTarea"
+          id="nombreTarea"
+          value={nombreNuevaTarea}
+          onChange={(event) => setNombreNuevaTarea(event.target.value)}
+        />{" "}
+        <br />
+        <label htmlFor="">Description: </label>
+        <input
+          type="text"
+          name="descripcionTarea"
+          id="descripcionTarea"
+          value={descripcionNuevaTarea}
+          onChange={(event) => setDescripcionNuevaTarea(event.target.value)}
+        />{" "}
+        <br />
+        <input type="submit" value="Añadir Tarea" />
       </form>
     </div>
   );

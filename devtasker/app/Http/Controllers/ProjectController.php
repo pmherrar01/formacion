@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use App\Http\Controllers\TaskController;
+use App\Models\Task;
 
 class ProjectController extends Controller
 {
@@ -101,5 +103,12 @@ class ProjectController extends Controller
 
         // 4. Devolvemos el proyecto actualizado
         return response()->json($proyectoAActualizar, 200);
+    }
+
+    public function obtenerTareas(Request $request, string $idProyecto){
+      $proyectoABuscar = Project::findOrFail($idProyecto);
+      return response()->json($proyectoABuscar->tasks);
+
+
     }
 }

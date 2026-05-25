@@ -17,6 +17,8 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::delete("/proyectos/{id}", [ProjectController::class, "destroy"]);
     Route::put("/proyectos/{id}", [ProjectController::class, "update"]);
     Route::get("/proyectos/{id}", [ProjectController::class, "show"]);
+    //ruta para listar todas las tareas de un proyecto en particular
+    Route::get("/proyectos/{id}/tareas", [ProjectController::class, "obtenerTareas"]);
 
 
     //rutas task
@@ -25,6 +27,7 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::delete("/tareas/{id}", [TaskController::class, "destroy"]);
     Route::put("/tareas/{id}", [TaskController::class, "update"]);
     Route::get("/tareas/{id}", [TaskController::class, "show"]);
+
 });
 
 

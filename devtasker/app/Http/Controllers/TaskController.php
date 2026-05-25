@@ -43,10 +43,7 @@ class TaskController extends Controller
 
         $tareaCreada = Task::create($datosValidados);
 
-        return response()->json([
-            "mensaje" => "Tarea creada con exito",
-            "tarea" => $tareaCreada
-        ], 201);
+        return response()->json($tareaCreada, 201);
     }
 
     /**
