@@ -158,6 +158,23 @@ export default function Dashboard({ alCerrarSesion }) {
     }
   };
 
+  const borrarTarea = async (idTarea) => {
+    const respuesta = await fetch(`http://localhost:8000/api/tareas/${idTarea}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${localStorage.getItem("Token")}`
+      }
+    });
+
+    if(respuesta.ok){
+      setTasks(tasks.filter((task) => task.id !== idTarea))
+    }else{
+      console.log("Error al intetar borrar la tarea del proyecto");
+    }
+  }
+
   return (
     <div>
       <button onClick={logout}>Cerrar sesion</button>
@@ -217,8 +234,14 @@ export default function Dashboard({ alCerrarSesion }) {
       <h2>Tareas del proyecto</h2>
       <ul>
         {tasks.map((task) => (
-          <li key={task.id}>{task.title} </li>
+          <li key={task.id}>{task.title}
+          <button onClick={() => borrarTarea(task.id)}>
+          Eliminar Tarea
+          </button>
+          </li>
+ 
         ))}
+
       </ul>
 
       <form onSubmit={(event) => crearTarea(event, proyectoActual.id)}>

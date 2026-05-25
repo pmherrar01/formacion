@@ -113,8 +113,6 @@ class TaskController extends Controller
 
         $tareaABorrar->delete();
 
-        return response()->json([
-            "mensaje" => "La tarea: " . $tareaABorrar->title . " se ha borrado perfectamente"
-        ], 200);
+        return response()->json($tareaABorrar->title, 200);
     }
 }
