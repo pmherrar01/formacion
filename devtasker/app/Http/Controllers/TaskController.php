@@ -46,9 +46,7 @@ class TaskController extends Controller
         return response()->json($tareaCreada, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(string $id, Request $request)
     {
         $tareaABuscar = Task::with("project")->findOrFail($id);
