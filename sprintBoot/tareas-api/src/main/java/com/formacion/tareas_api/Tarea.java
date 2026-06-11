@@ -14,15 +14,20 @@ public class Tarea {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String titulo;
     private boolean completada;
 
-    public Tarea() {
-        this.id = id;
-        this.titulo = titulo;
-        this.completada = completada;
+    public String getContraseñaTarea() {
+        return contraseñaTarea;
     }
+
+    public void setContraseñaTarea(String contraseñaTarea) {
+        this.contraseñaTarea = contraseñaTarea;
+    }
+
+    private String contraseñaTarea;
+
+    public Tarea() {}
 
     public Long getId() {
         return id;
