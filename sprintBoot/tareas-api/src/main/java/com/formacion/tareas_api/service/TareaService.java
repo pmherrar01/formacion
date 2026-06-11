@@ -36,8 +36,12 @@ public class TareaService {
 
     public Tarea actualizarTarea( Long id,  TareaDTO tareaActualizada){
 
+        Tarea tareaABuscar = repositorio.findById(id).orElseThrow(() -> new RuntimeException("No se encontro la tarea con id: " + id));
 
-        return  repositorio.findById(id)
+        tareaABuscar.setTitulo(tareaActualizada.getTitulo());
+        tareaABuscar.setCompletada(tareaActualizada.isCompletada());
+
+        return repositorio.save(tareaABuscar);
 
     }
 

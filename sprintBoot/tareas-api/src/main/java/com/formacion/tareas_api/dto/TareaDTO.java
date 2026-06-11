@@ -1,7 +1,10 @@
 package com.formacion.tareas_api.dto;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class TareaDTO {
     private Long id;
+    @NotBlank(message = "El titulo es obligatorio")
     private String titulo;
     private boolean completada;
 

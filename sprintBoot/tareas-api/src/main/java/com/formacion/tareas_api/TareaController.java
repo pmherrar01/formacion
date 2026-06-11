@@ -3,6 +3,7 @@ package com.formacion.tareas_api;
 
 import com.formacion.tareas_api.dto.TareaDTO;
 import com.formacion.tareas_api.service.TareaService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.*;
@@ -23,12 +24,12 @@ public class TareaController {
     }
 
     @PostMapping
-    public Tarea crear(@RequestBody TareaDTO nuevaTarea){
+    public Tarea crear(@Valid @RequestBody TareaDTO nuevaTarea){
         return servicio.crear(nuevaTarea);
     }
 
     @PutMapping("/{id}")
-    public Tarea actualizarTarea(@PathVariable Long id, @RequestBody TareaDTO tareActualizada){
+    public Tarea actualizarTarea(@Valid @PathVariable Long id, @RequestBody TareaDTO tareActualizada){
         return servicio.actualizarTarea(id, tareActualizada);
     }
 
