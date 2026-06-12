@@ -1,4 +1,4 @@
-package exception;
+package com.formacion.tareas_api.exception;
 
 
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -18,6 +18,13 @@ public class GlobalExceptionHandler {
 
         // Creamos un "diccionario" vacío para guardar los errores limpios
         Map<String, String> erroresLimpios = new HashMap<>();
+
+
+        excepcion.getBindingResult().getFieldErrors().forEach(error -> {
+
+            erroresLimpios.put(error.getField(), error.getDefaultMessage());
+        });
+
 
         // TU RETO DE LÓGICA:
         // 1. La 'excepcion' tiene una lista oculta con todos los errores.

@@ -7,11 +7,13 @@ public class TareaDTO {
     @NotBlank(message = "El titulo es obligatorio")
     private String titulo;
     private boolean completada;
+    private Long idUsu;
 
-    public TareaDTO(Long id, String titulo, boolean completada) {
+    public TareaDTO(Long id, String titulo, boolean completada, Long idUsu) {
         this.id = id;
         this.titulo = titulo;
         this.completada = completada;
+        this.idUsu = idUsu;
     }
 
     public TareaDTO() {}
@@ -38,5 +40,13 @@ public class TareaDTO {
 
     public void setCompletada(boolean completada) {
         this.completada = completada;
+    }
+
+    public Long getIdUsu() {
+        return idUsu;
+    }
+
+    public void setIdUsu(Long idUsu) {
+        this.idUsu = idUsu;
     }
 }

@@ -1,9 +1,6 @@
 package com.formacion.tareas_api;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 // @Entity le dice a Spring: "¡Crea una tabla para esto en Supabase!"
 @Entity
@@ -16,6 +13,11 @@ public class Tarea {
     private Long id;
     private String titulo;
     private boolean completada;
+
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
     public String getContraseñaTarea() {
         return contraseñaTarea;
@@ -52,4 +54,14 @@ public class Tarea {
     public void setCompletada(boolean completada) {
         this.completada = completada;
     }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+
 }
