@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class TicketService {
@@ -18,6 +19,10 @@ public class TicketService {
        ticketACrear.setReportDate(LocalDateTime.now());
        ticketACrear.setEstado(EstadoTicket.ABIERTO);
        return ticketRepository.save(ticketACrear);
+    }
+
+    public List<Ticket> listarTickets(){
+        return ticketRepository.findAll();
     }
 
 }

@@ -24,14 +24,13 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(String title, String description, Persona affetedPerson, EstadoTicket estado, Persona technician, LocalDateTime reportDate, LocalDateTime resolutionDate) {
+    public Ticket(String title, String description, Persona affetedPerson, EstadoTicket estado, Persona technician, LocalDateTime reportDate) {
         this.title = title;
         this.description = description;
         this.affetedPerson = affetedPerson;
         this.estado = estado;
         this.technician = technician;
         this.reportDate = reportDate;
-        this.resolutionDate = resolutionDate;
     }
 
     public Long getId() {

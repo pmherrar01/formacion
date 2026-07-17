@@ -1,0 +1,118 @@
+/* --- VARIABLES GLOBALES --- */
+:root {
+  --bg-color: #f4f7f9;
+  --text-main: #2c3e50;
+  --text-muted: #7f8c8d;
+  --primary-color: #3498db;
+  --card-bg: #ffffff;
+  --border-radius: 12px;
+}
+
+/* --- RESET BÁSICO --- */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+}
+
+/* --- CONTENEDOR PRINCIPAL --- */
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.header-title {
+  font-size: 2.5rem;
+  color: var(--text-main);
+  border-bottom: 3px solid var(--primary-color);
+  padding-bottom: 0.5rem;
+  margin-bottom: 2rem;
+  display: inline-block;
+}
+
+/* --- REJILLA DE TICKETS (GRID) --- */
+.ticket-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* --- TARJETA DE TICKET (CARD) --- */
+.ticket-card {
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-top: 5px solid #ccc; /* Color por defecto, se pisa abajo */
+}
+
+.ticket-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.ticket-title {
+  font-size: 1.25rem;
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+}
+
+/* --- ETIQUETAS DE ESTADO (BADGES) --- */
+.ticket-badge {
+  align-self: flex-start;
+  padding: 0.35rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* --- COLORES DINÁMICOS POR ESTADO --- */
+.estado-abierto {
+  border-top-color: #3498db;
+}
+.estado-abierto .ticket-badge {
+  background-color: #ebf5fb;
+  color: #2980b9;
+}
+
+.estado-en_progreso {
+  border-top-color: #f1c40f;
+}
+.estado-en_progreso .ticket-badge {
+  background-color: #fef9e7;
+  color: #d4ac0d;
+}
+
+.estado-resuelto {
+  border-top-color: #2ecc71;
+}
+.estado-resuelto .ticket-badge {
+  background-color: #eafaf1;
+  color: #27ae60;
+}
+/* Añade esto al final de tu App.css */
+.ticket-description {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  flex-grow: 1; /* Empuja el badge hacia abajo */
+}
+
+.ticket-tech {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 1rem;
+}
