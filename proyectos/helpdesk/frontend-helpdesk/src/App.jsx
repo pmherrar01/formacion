@@ -1,16 +1,30 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import { ListaTecnicos } from './ListaTecnicos';
+import { FormTickets } from './TicketForm';
 
 function App() {
   const [tickets, setTickets] = useState([]);
+  const [personas, setPersonas] = useState([]);
 
   useEffect(() => {
     fetch('http://localhost:8080/api/tickets')
       .then(response => response.json())
       .then(data => setTickets(data))
       .catch(error => console.error("Error en la petición:", error));
+
+      fetch("http://localhost:8080/api/personas")
+    .then((response) => response.json())
+    .then((datos) => {
+      setPersonas(datos)
+    })
+    .catch((error) => console.error("Error en la petición:", error));
+
+
   }, []);
+
+    const listaTecnicos = personas.filter(per => per.tipoPersona === "TECNICO");
+
 
   return (
     <div className="dashboard-container">
@@ -36,7 +50,8 @@ function App() {
         ))}
       </ul>
 
-<ListaTecnicos />
+<ListaTecnicos tecnicos={listaTecnicos} />
+<FormTickets tecnicos={listaTecnicos}  />
 
     </div>
   );
