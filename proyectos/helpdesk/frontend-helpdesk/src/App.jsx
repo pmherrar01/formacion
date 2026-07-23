@@ -16,6 +16,7 @@ function App() {
       fetch("http://localhost:8080/api/personas")
     .then((response) => response.json())
     .then((datos) => {
+
       setPersonas(datos)
     })
     .catch((error) => console.error("Error en la petición:", error));
@@ -24,6 +25,10 @@ function App() {
   }, []);
 
     const listaTecnicos = personas.filter(per => per.tipoPersona === "TECNICO");
+
+    const agregarTicket = (nuevoTicketGuardado) =>{
+      setTickets([nuevoTicketGuardado, ...tickets]);
+    };
 
 
   return (
@@ -51,7 +56,7 @@ function App() {
       </ul>
 
 <ListaTecnicos tecnicos={listaTecnicos} />
-<FormTickets tecnicos={listaTecnicos}  />
+<FormTickets tecnicos={listaTecnicos} onTicketCreado={agregarTicket} />
 
     </div>
   );

@@ -5,7 +5,7 @@ export function ListaTecnicos({tecnicos}) {
       <h2>Lista tecnicos</h2>
       <ul>
         {tecnicos.map((tec) => (
-          <li key={tec.id}> Nombre del tecnico: {tec.nombre} </li>
+          <li key={tec.id}> Nombre del tecnico: {tec.nombre}, cantidad de incidencias asignadas: {tec.incidenciasAsignadas}</li>
         ))}
       </ul>
     </div>

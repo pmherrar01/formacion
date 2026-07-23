@@ -13,6 +13,7 @@ public class Persona {
     private Long id;
     private String nombre;
     private TipoPersona tipoPersona;
+    private int incidenciasAsignadas;
 
     public Persona(String nombre, TipoPersona tipoPersona) {
         this.nombre = nombre;
@@ -20,6 +21,14 @@ public class Persona {
     }
 
     public Persona() {
+    }
+
+    public int getIncidenciasAsignadas() {
+        return incidenciasAsignadas;
+    }
+
+    public void setIncidenciasAsignadas(int incidenciasAsignadas) {
+        this.incidenciasAsignadas = incidenciasAsignadas;
     }
 
     public Long getId() {

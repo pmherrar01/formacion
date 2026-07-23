@@ -1,10 +1,11 @@
 import { useState } from "react";
 
-export function FormTickets({tecnicos}){
+export function FormTickets({tecnicos, onTicketCreado}){
 
-    const [title, setTitle] = useState();
-    const [description, setDescription] = useState();
-    const [techId, setTechId] = useState();
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    
+
 
     const manejarEnvio = (e) => {
         e.preventDefault();
@@ -12,11 +13,21 @@ export function FormTickets({tecnicos}){
         fetch("http://localhost:8080/api/tickets", {
             method: "POST",
             headers: {"Content-Type": 'application/json'},
-            body: JSON.stringify({title, description, technician: {id: techId}})
+            body: JSON.stringify({title, description})
 
         })
+        .then(response => response.json())
+        .then(data => {
+            onTicketCreado(data);
+
+            setTitle("");
+            setDescription("");
+        })
+        .catch((error) => console.log("Error en la peticion: " + error) )
         
     }
+
+    
 
     return(
         <div className="ticket-card" >
@@ -28,12 +39,6 @@ export function FormTickets({tecnicos}){
             <input type="text" value={title} onChange={(e) => setTitle(e.target.value) }  /><br />
             <label htmlFor="">descripcion</label><br />
             <textarea name="" id="" value={description} onChange={(e) => setDescription(e.target.value) } ></textarea><br />
-            <select value={techId} onChange={(e) => setTechId(e.target.value)}>
-                <option value=""  disabled selected>Selecciona un tecnico</option>
-                {tecnicos.map((tec) => (
-                    <option key={tec.id} value={tec.id}  >{tec.nombre}</option>
-                ) )}
-            </select><br />
             <button type="submit">Enviar</button>
         </form>
         </div>
