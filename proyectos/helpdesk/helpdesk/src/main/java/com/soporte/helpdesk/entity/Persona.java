@@ -1,6 +1,5 @@
 package com.soporte.helpdesk.entity;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,46 +11,27 @@ public class Persona {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
+    private String email;
     private TipoPersona tipoPersona;
     private int incidenciasAsignadas;
 
-    public Persona(String nombre, TipoPersona tipoPersona) {
+    public Persona() {}
+
+    public Persona(String nombre, String email, TipoPersona tipoPersona) {
         this.nombre = nombre;
+        this.email = email;
         this.tipoPersona = tipoPersona;
+        this.incidenciasAsignadas = 0;
     }
 
-    public Persona() {
-    }
-
-    public int getIncidenciasAsignadas() {
-        return incidenciasAsignadas;
-    }
-
-    public void setIncidenciasAsignadas(int incidenciasAsignadas) {
-        this.incidenciasAsignadas = incidenciasAsignadas;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public TipoPersona getTipoPersona() {
-        return tipoPersona;
-    }
-
-    public void setTipoPersona(TipoPersona tipoPersona) {
-        this.tipoPersona = tipoPersona;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    public TipoPersona getTipoPersona() { return tipoPersona; }
+    public void setTipoPersona(TipoPersona tipoPersona) { this.tipoPersona = tipoPersona; }
+    public int getIncidenciasAsignadas() { return incidenciasAsignadas; }
+    public void setIncidenciasAsignadas(int incidenciasAsignadas) { this.incidenciasAsignadas = incidenciasAsignadas; }
 }
