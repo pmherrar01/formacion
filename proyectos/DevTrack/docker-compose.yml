@@ -1,0 +1,26 @@
+services:
+  devtrack-db:
+    image: mysql:8.0
+    container_name: devtrack_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: devtrack_db
+    ports:
+      - "3307:3306" # El host usará el 3307, el contenedor internamente el 3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: devtrack_pma
+    environment:
+      PMA_HOST: devtrack-db
+      PMA_USER: root
+      PMA_PASSWORD: root
+    ports:
+      - "8080:80"
+    depends_on:
+      - devtrack-db
+
+volumes:
+  mysql_data:
