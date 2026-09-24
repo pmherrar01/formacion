@@ -4,22 +4,59 @@ generator client {
 
 datasource db {
   provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
-// Definimos los roles permitidos en el sistema
-enum Role {
-  ADMIN
-  MANAGER
-  DEVELOPER
-}
-
-// Nuestra tabla de Usuarios
 model User {
   id        Int      @id @default(autoincrement())
   email     String   @unique
   password  String
   name      String
-  role      Role     @default(DEVELOPER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // Relación inversa: Un usuario puede tener varios tickets asignados
+  tickets Ticket[]
+}
+
+enum TicketStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relación inversa: Un proyecto tiene varios tickets
+  tickets Ticket[]
+}
+
+model Ticket {
+  id          Int            @id @default(autoincrement())
+  title       String
+  description String?
+  status      TicketStatus   @default(TODO)
+  priority    TicketPriority @default(MEDIUM)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  // Relación con el Proyecto (Obligatorio)
+  project   Project @relation(fields: [projectId], references: [id])
+  projectId Int
+
+  // Relación con el Usuario (Opcional, puede estar sin asignar)
+  assignee   User? @relation(fields: [assigneeId], references: [id])
+  assigneeId Int?
 }
