@@ -50,3 +50,19 @@ export const getProjectById = async(req: Request, res:Response) => {
         res.status(500).json({mensaje: "error al mostrar el projecto filtrnado por id"})
     }
 } 
+
+export const deleteProject = async (req: Request, res: Response) => {
+    try {
+        const idFormateado = Number(req.params.id);
+
+        const project = await prisma.project.delete({
+            where: {
+                id: idFormateado
+            }
+        })
+
+        res.status(201).json({mensaje: "Borrado prefectamente el projecto con id: ", idFormateado})
+    } catch (error) {
+        res.status(500).json({mensaje: "Error al borrar el projecto"})
+    }
+}

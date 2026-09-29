@@ -4,6 +4,7 @@ import healthRoutes from './routes/health.routes';
 import userRoutes from './routes/user.routes';
 import projectRoutes from "./routes/project.routes"
 import ticketRoutes from "./routes/ticket.routes"
+import authRoutes from "./routes/auth.routes";
 
 dotenv.config();
 
@@ -16,6 +17,7 @@ app.use('/api', healthRoutes);
 app.use('/api/users', userRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/tickets", ticketRoutes);
+app.use("/api/auth", authRoutes);
 
 app.listen(PORT, () => {
     console.log(`El servidor está corriendo en el puerto ${PORT}`);
