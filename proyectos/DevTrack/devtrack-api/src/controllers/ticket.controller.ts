@@ -11,11 +11,7 @@ export const createTicket = async (req: AuthRequest, res: Response) => {
         const validatedData = createTicketSchema.parse(req.body);
 
         const newTicket = await prisma.ticket.create({
-            data: {
-                ...validatedData,
-                assigneeId: req.user.id
-            }
-                
+            data: validatedData                
             });
 
             res.status(201).json({mensaje: "ticket creado correctamente", ticket: newTicket});
@@ -78,3 +74,19 @@ export const deleteTicket = async (req: Request, res: Response) =>{
         res.status(500).json({mensaje: "Error al intentar eliminar el ticket"});
     }
 }
+
+export const mostrarTicketsPorUser = async (req: AuthRequest, res: Response) => {
+    try {
+
+        const tickets = await prisma.ticket.findMany({
+            where: {
+                assigneeId: req.user.id
+            }
+        })
+
+        return res.status(200).json({mensaje: "Los tickets asociados a este usuario son: ", tickets})
+        
+    } catch (error) {
+        res.status(500).json({mensaje: "Error al intentar mostrar los tickets del usurio"})
+    }
+} 
