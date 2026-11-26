@@ -9,7 +9,7 @@ const router = Router();
 
 router.post("/",verifyToken, createTicket);
 router.get("/mis-tickets", verifyToken, mostrarTicketsPorUser);
-router.patch("/:id", updateTicketStatus);
-router.delete("/:id", deleteTicket);
+router.patch("/:id", verifyToken, updateTicketStatus);
+router.delete("/:id", verifyToken, deleteTicket);
 
 export default router;
